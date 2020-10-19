@@ -9,7 +9,6 @@
 	"npc_dota_hero_tea_alchemist"
 	{
 		"override_hero"				"npc_dota_hero_alchemist"			// Hero to override
-		"Ability1"					"templar_assassin_refraction_holdout"		// Ability 1
-		"VisionNighttimeRange"		"1800"										// Range of vision at night time.
+		"Ability3"					"tea_alchemist_throw_gold"		// Ability 3
 	}
 }

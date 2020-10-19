@@ -1,10 +1,10 @@
--- Generated from template
-
 if CTeaGameMode == nil then
-	CTeaGameMode = class({})
+	_G.CTeaGameMode = class({})
 end
 
-function Precache( context )
+require("events")
+
+function Precache(context)
 	--[[
 		Precache things we know we'll use.  Possible file types include (but not limited to):
 			PrecacheResource( "model", "*.vmdl", context )
@@ -14,24 +14,15 @@ function Precache( context )
 	]]
 end
 
--- Create the game mode when we activate
 function Activate()
 	GameRules.AddonTemplate = CTeaGameMode()
 	GameRules.AddonTemplate:InitGameMode()
 end
 
 function CTeaGameMode:InitGameMode()
-	print( "Template addon is loaded." )
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
-	GameRules:SetSameHeroSelectionEnabled( true )
-end
-
--- Evaluate the state of the game
-function CTeaGameMode:OnThink()
-	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		--print( "Template addon script is running." )
-	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
-		return nil
-	end
-	return 1
+	print("TEA addon is loaded.")
+	GameRules:SetSameHeroSelectionEnabled(true)
+	ListenToGameEvent("npc_spawned", Dynamic_Wrap(CTeaGameMode, "OnNPCSpawned"), self)
+	PlayerResource:SetCustomTeamAssignment(0, DOTA_TEAM_GOODGUYS)
+	PlayerResource:SetCustomTeamAssignment(1, DOTA_TEAM_BADGUYS)
 end
